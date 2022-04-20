@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +16,16 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private readonly DataContext _dataContext;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(DataContext dataContext)
+        public AccountController(DataContext dataContext, ITokenService tokenService)
         {
             _dataContext = dataContext;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegisterDTO registerDTO){
+        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO){
             if(await UserExists(registerDTO.Username))
                 return BadRequest("Username exists!");
 
@@ -37,15 +40,20 @@ namespace API.Controllers
             _dataContext.Users.Add(user);
             await _dataContext.SaveChangesAsync();
 
-            return user;
+            return new UserDTO {
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDTO loginDTO) {
+        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO) {
             if(loginDTO == null) return Unauthorized("Login details empty");
 
             var user = await _dataContext.Users
                                          .SingleOrDefaultAsync(x => x.UserName == loginDTO.Username.ToLower());
+
+            if(user == null) return Unauthorized("Username not exists!");
                                         
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -55,7 +63,10 @@ namespace API.Controllers
                 if(computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
 
-            return user;
+            return new UserDTO {
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };;
         }
 
         private async Task<bool> UserExists(string username) {
