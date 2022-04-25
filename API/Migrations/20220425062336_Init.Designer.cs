@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220423134727_ExtendedUserEntity")]
-    partial class ExtendedUserEntity
+    [Migration("20220425062336_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,13 +45,13 @@ namespace API.Data.Migrations
                     b.Property<string>("Introduction")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("KnowAs")
+                    b.Property<string>("KnownAs")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastActive")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LookingForm")
+                    b.Property<string>("LookingFor")
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("PasswordHash")
