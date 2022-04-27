@@ -51,6 +51,7 @@ namespace API.Controllers
             if(loginDTO == null) return Unauthorized("Login details empty");
 
             var user = await _dataContext.Users
+                                         .Include(p => p.Photos)
                                          .SingleOrDefaultAsync(x => x.UserName == loginDTO.Username.ToLower());
 
             if(user == null) return Unauthorized("Username not exists!");
@@ -65,7 +66,8 @@ namespace API.Controllers
 
             return new UserDTO {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };;
         }
 
