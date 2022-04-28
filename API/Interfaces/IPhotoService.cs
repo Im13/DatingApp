@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
 
-namespace API.Helpers
+namespace API.Interfaces
 {
     public interface IPhotoService
     {
