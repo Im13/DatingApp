@@ -19,6 +19,8 @@ namespace API.Helpers
             CreateMap<Photo, PhotoDTO>();
 
             CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<RegisterDTO, AppUser>()
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth.ToLocalTime()));
         }
     }
 }

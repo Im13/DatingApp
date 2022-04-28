@@ -25,6 +25,10 @@ export class MembersService {
     );
   }
 
+  resetMembers() {
+    this.members = [];
+  }
+
   getMember(username: string) {
     const member = this.members.find(x => x.username === username);
     if (member !== undefined) {
