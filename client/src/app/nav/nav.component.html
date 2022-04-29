@@ -39,7 +39,7 @@
 
       <div class="dropdown text-end" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
         <a class="d-block link-light text-decoration-none dropdown-toggle" dropdownToggle>
-          Welcome {{user.username | titlecase}}
+          Welcome {{user.knownAs | titlecase}}
           <img src="{{user.photoUrl || './../../../assets/user.png'}}" alt="mdo" width="32" height="32" class="rounded-circle ml-2">
         </a>
         <ul class="dropdown-menu text-small mt-3" *dropdownMenu>
