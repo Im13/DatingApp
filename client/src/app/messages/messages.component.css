@@ -1,0 +1,11 @@
+.img-circle {
+  max-height: 50px;
+}
+
+.btn-danger{
+  background-color: #ff0039;
+}
+
+tr :hover {
+  cursor: pointer;
+}
