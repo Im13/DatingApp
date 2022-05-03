@@ -1,0 +1,12 @@
+.btn-info{
+  background-color: #9954bb;
+}
+
+.btn-info:hover {
+  background-color: #c17fe3;
+  border-color: #c17fe3;
+}
+
+.table-row {
+  border-top: 0px solid currentColor;
+}
